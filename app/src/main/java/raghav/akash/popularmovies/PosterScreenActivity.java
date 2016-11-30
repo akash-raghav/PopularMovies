@@ -3,11 +3,12 @@ package raghav.akash.popularmovies;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,8 +21,11 @@ import java.util.Scanner;
 
 public class PosterScreenActivity extends AppCompatActivity {
 
+  private static final int SORTED_BY_RATING = 0;
+  private static final int SORTED_BY_POPULARITY = 1;
   private static final String LOG_TAG = "Popular Movies";
   private Toolbar toolbar;
+  private int posterSortType;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class PosterScreenActivity extends AppCompatActivity {
       toolbar.setTitle(R.string.top_rated_str);
     }
     setSupportActionBar(toolbar);
-    getMoviePosters();
+    getMoviePosters(SORTED_BY_RATING);
   }
 
   private void setMoviePosters(String jsonString) {
@@ -42,16 +46,16 @@ public class PosterScreenActivity extends AppCompatActivity {
       for (int i = 0; i < jsonArray.length(); i++) {
         imageList.add(jsonArray.getJSONObject(i).getString(""));
       }
-      GridView gridView = (GridView) findViewById(R.id.content_poster_screen_grid_view);
-      if (gridView != null) {
-        gridView.setAdapter(new ImageAdapter(this, imageList));
-      }
+      RecyclerView PosterGridRecyclerView = (RecyclerView) findViewById(R.id.content_poster_screen_grid_view);
+      PosterGridRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+      PosterGridRecyclerView.setAdapter(new ImageAdapter(this, imageList));
     } catch (JSONException e) {
       Log.e(LOG_TAG, e.getMessage());
     }
   }
 
-  private void getMoviePosters() {
+  private void getMoviePosters(int posterSortType) {
+    this.posterSortType = posterSortType;
     new AsyncTask<String, Void, String>() {
       @Override
       protected String doInBackground(String... params) {
@@ -92,9 +96,15 @@ public class PosterScreenActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.menu_top_rated) {
-      toolbar.setTitle(R.string.top_rated_str);
+      if (posterSortType == SORTED_BY_POPULARITY) {
+        toolbar.setTitle(R.string.top_rated_str);
+        getMoviePosters(SORTED_BY_RATING);
+      }
     } else {
-      toolbar.setTitle(R.string.most_popular_str);
+      if (posterSortType == SORTED_BY_RATING) {
+        toolbar.setTitle(R.string.most_popular_str);
+        getMoviePosters(SORTED_BY_POPULARITY);
+      }
     }
     return true;
   }

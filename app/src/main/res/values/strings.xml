@@ -3,4 +3,5 @@
   <string name="title_activity_poster_screen">Movies</string>
   <string name="most_popular_str">Most Popular</string>
   <string name="top_rated_str">Top Rated</string>
+  <string name="title_activity_detail_screen">DetailScreenActivity</string>
 </resources>
