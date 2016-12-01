@@ -12,7 +12,9 @@ import android.view.MenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,56 +23,49 @@ import java.util.Scanner;
 
 public class PosterScreenActivity extends AppCompatActivity {
 
-  private static final int SORTED_BY_RATING = 0;
-  private static final int SORTED_BY_POPULARITY = 1;
+  private static final String POPULAR_MOVIES = "popular";
+  private static final String TOP_MOVIES = "top_rated";
+  private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
   private static final String LOG_TAG = "Popular Movies";
   private Toolbar toolbar;
-  private int posterSortType;
+  private String posterSortType;
+  private RecyclerView PosterGridRecyclerView;
+  private ImageAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_poster_screen);
+    init();
+    getMoviePosters(POPULAR_MOVIES);
+  }
+
+  private void init() {
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     if (toolbar != null) {
-      toolbar.setTitle(R.string.top_rated_str);
+      toolbar.setTitle(R.string.most_popular_str);
     }
     setSupportActionBar(toolbar);
-    getMoviePosters(SORTED_BY_RATING);
+    PosterGridRecyclerView = (RecyclerView) findViewById(R.id.content_poster_screen_grid_view);
+    PosterGridRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
   }
 
-  private void setMoviePosters(String jsonString) {
-    try {
-      JSONArray jsonArray = new JSONArray(jsonString);
-      ArrayList<String> imageList = new ArrayList<>();
-      for (int i = 0; i < jsonArray.length(); i++) {
-        imageList.add(jsonArray.getJSONObject(i).getString(""));
-      }
-      RecyclerView PosterGridRecyclerView = (RecyclerView) findViewById(R.id.content_poster_screen_grid_view);
-      PosterGridRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-      PosterGridRecyclerView.setAdapter(new ImageAdapter(this, imageList));
-    } catch (JSONException e) {
-      Log.e(LOG_TAG, e.getMessage());
-    }
-  }
-
-  private void getMoviePosters(int posterSortType) {
+  private void getMoviePosters(String posterSortType) {
     this.posterSortType = posterSortType;
-    new AsyncTask<String, Void, String>() {
+    AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
       @Override
       protected String doInBackground(String... params) {
         HttpURLConnection urlConnection = null;
         StringBuilder stringBuilder = new StringBuilder();
         try {
-          URL url = new URL("");
+          URL url = new URL(String.format(getString(R.string.movie_base_url), params[0], getString(R.string.api_key)));
           urlConnection = (HttpURLConnection) url.openConnection();
           InputStream inputStream = urlConnection.getInputStream();
           Scanner scanner = new Scanner(inputStream);
-          String data;
-          while ((data = scanner.nextLine()) != null) {
-            stringBuilder.append(data);
+          while (scanner.hasNext()) {
+            stringBuilder.append(scanner.next());
           }
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
           Log.e(LOG_TAG, e.getMessage());
         } finally {
           if (urlConnection != null) {
@@ -84,7 +79,27 @@ public class PosterScreenActivity extends AppCompatActivity {
       protected void onPostExecute(String s) {
         setMoviePosters(s);
       }
-    }.execute();
+    };
+    task.execute(posterSortType);
+  }
+
+  private void setMoviePosters(String jsonString) {
+    try {
+      JSONObject resultObject = new JSONObject(jsonString);
+      JSONArray jsonArray = resultObject.getJSONArray("results");
+      ArrayList<String> imageList = new ArrayList<>();
+      for (int i = 0; i < jsonArray.length(); i++) {
+        imageList.add(BASE_IMAGE_URL + jsonArray.getJSONObject(i).getString("poster_path"));
+      }
+      if (adapter == null) {
+        adapter = new ImageAdapter(this, imageList);
+        PosterGridRecyclerView.setAdapter(adapter);
+      } else {
+        adapter.updateList(imageList);
+      }
+    } catch (JSONException e) {
+      Log.e(LOG_TAG, e.getMessage());
+    }
   }
 
   @Override
@@ -96,14 +111,14 @@ public class PosterScreenActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.menu_top_rated) {
-      if (posterSortType == SORTED_BY_POPULARITY) {
+      if (posterSortType.equals(POPULAR_MOVIES)) {
         toolbar.setTitle(R.string.top_rated_str);
-        getMoviePosters(SORTED_BY_RATING);
+        getMoviePosters(TOP_MOVIES);
       }
     } else {
-      if (posterSortType == SORTED_BY_RATING) {
+      if (posterSortType.equals(TOP_MOVIES)) {
         toolbar.setTitle(R.string.most_popular_str);
-        getMoviePosters(SORTED_BY_POPULARITY);
+        getMoviePosters(POPULAR_MOVIES);
       }
     }
     return true;

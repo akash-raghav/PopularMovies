@@ -4,4 +4,6 @@
   <string name="most_popular_str">Most Popular</string>
   <string name="top_rated_str">Top Rated</string>
   <string name="title_activity_detail_screen">DetailScreenActivity</string>
+  <string name="movie_base_url">http://api.themoviedb.org/3/movie/%1$s?api_key=%2$s</string>
+  <string name="api_key">your-moviesdb-api-key-here</string>
 </resources>

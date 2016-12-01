@@ -47,6 +47,11 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
     return imageList.size();
   }
 
+  public void updateList(ArrayList<String> imageList) {
+    this.imageList = imageList;
+    notifyDataSetChanged();
+  }
+
   static class ImageHolder extends RecyclerView.ViewHolder {
 
     View containerView;
