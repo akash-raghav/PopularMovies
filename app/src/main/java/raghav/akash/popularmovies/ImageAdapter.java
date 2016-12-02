@@ -38,7 +38,7 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
       @Override
       public void onClick(View view) {
         Intent i = new Intent(context, DetailScreenActivity.class);
-        i.putExtra("", movieDetailsList.get(holder.getAdapterPosition()));
+        i.putExtra(DetailScreenActivity.MOVIE_DATA, movieDetailsList.get(holder.getAdapterPosition()));
         context.startActivity(i);
       }
     });
