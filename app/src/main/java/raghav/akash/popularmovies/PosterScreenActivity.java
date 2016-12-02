@@ -3,8 +3,8 @@ package raghav.akash.popularmovies;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +25,6 @@ public class PosterScreenActivity extends AppCompatActivity {
 
   private static final String POPULAR_MOVIES = "popular";
   private static final String TOP_MOVIES = "top_rated";
-  private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185/";
   private static final String LOG_TAG = "Popular Movies";
   private Toolbar toolbar;
   private String posterSortType;
@@ -47,7 +46,7 @@ public class PosterScreenActivity extends AppCompatActivity {
     }
     setSupportActionBar(toolbar);
     PosterGridRecyclerView = (RecyclerView) findViewById(R.id.content_poster_screen_grid_view);
-    PosterGridRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+    PosterGridRecyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
   }
 
   private void getMoviePosters(String posterSortType) {
@@ -87,15 +86,15 @@ public class PosterScreenActivity extends AppCompatActivity {
     try {
       JSONObject resultObject = new JSONObject(jsonString);
       JSONArray jsonArray = resultObject.getJSONArray("results");
-      ArrayList<String> imageList = new ArrayList<>();
+      ArrayList<MovieDetails> movieDetailsList = new ArrayList<>();
       for (int i = 0; i < jsonArray.length(); i++) {
-        imageList.add(BASE_IMAGE_URL + jsonArray.getJSONObject(i).getString("poster_path"));
+        movieDetailsList.add(MovieDetails.parseDetails(jsonArray.getJSONObject(i)));
       }
       if (adapter == null) {
-        adapter = new ImageAdapter(this, imageList);
+        adapter = new ImageAdapter(this, movieDetailsList);
         PosterGridRecyclerView.setAdapter(adapter);
       } else {
-        adapter.updateList(imageList);
+        adapter.updateList(movieDetailsList);
       }
     } catch (JSONException e) {
       Log.e(LOG_TAG, e.getMessage());

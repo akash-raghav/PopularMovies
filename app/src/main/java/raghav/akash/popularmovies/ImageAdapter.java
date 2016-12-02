@@ -1,6 +1,7 @@
 package raghav.akash.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
  */
 class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
 
-  private ArrayList<String> imageList;
+  private ArrayList<MovieDetails> movieDetailsList;
   private Context context;
 
-  ImageAdapter(Context context, ArrayList<String> imageList) {
+  ImageAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
     this.context = context;
-    this.imageList = imageList;
+    this.movieDetailsList = movieDetailsList;
   }
 
   @Override
@@ -32,10 +33,19 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
   }
 
   @Override
-  public void onBindViewHolder(ImageHolder holder, int position) {
-    Picasso.with(context).load(imageList.get(position)).into(holder.imageView);
+  public void onBindViewHolder(final ImageHolder holder, int position) {
+    holder.containerView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent i = new Intent(context, DetailScreenActivity.class);
+        i.putExtra("", movieDetailsList.get(holder.getAdapterPosition()));
+        context.startActivity(i);
+      }
+    });
+    Picasso.with(context)
+        .load(context.getString(R.string.base_image_url) + movieDetailsList.get(position).getImageThumbnail())
+        .into(holder.imageView);
   }
-
 
   @Override
   public long getItemId(int position) {
@@ -44,11 +54,11 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
 
   @Override
   public int getItemCount() {
-    return imageList.size();
+    return movieDetailsList.size();
   }
 
-  public void updateList(ArrayList<String> imageList) {
-    this.imageList = imageList;
+  public void updateList(ArrayList<MovieDetails> movieDetailsList) {
+    this.movieDetailsList = movieDetailsList;
     notifyDataSetChanged();
   }
 
