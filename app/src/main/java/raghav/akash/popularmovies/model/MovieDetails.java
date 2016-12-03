@@ -1,4 +1,4 @@
-package raghav.akash.popularmovies;
+package raghav.akash.popularmovies.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by raghav on 1/12/16.
+ * @author Raghav
+ * Created on 1/12/16.
  */
 
 public class MovieDetails implements Parcelable {

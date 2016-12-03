@@ -8,4 +8,9 @@
   <string name="base_image_url">http://image.tmdb.org/t/p/w185/</string>
   <string name="api_key">your-moviesdb-api-key-here</string>
   <string name="poster_info">Movie Poster Thumb</string>
+  <string name="pref_movieSortType">Sort Order</string>
+  <string name="pref_movieSortSelection">Movie Order</string>
+  <string name="pref_defaultMovieSortOrder">popular</string>
+  <string name="settings">settings</string>
+  <string name="pref_sortOrderKey">sortOrderKey</string>
 </resources>

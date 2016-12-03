@@ -1,4 +1,4 @@
-package raghav.akash.popularmovies;
+package raghav.akash.popularmovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,16 +12,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import raghav.akash.popularmovies.DetailScreenActivity;
+import raghav.akash.popularmovies.R;
+import raghav.akash.popularmovies.model.MovieDetails;
+
 /**
  * @author raghav
  *         Created on 23/5/16.
  */
-class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
 
   private ArrayList<MovieDetails> movieDetailsList;
   private Context context;
 
-  ImageAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
+  public ImageAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
     this.context = context;
     this.movieDetailsList = movieDetailsList;
   }

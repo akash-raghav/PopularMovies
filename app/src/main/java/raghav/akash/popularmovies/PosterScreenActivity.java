@@ -1,5 +1,6 @@
 package raghav.akash.popularmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import raghav.akash.popularmovies.adapter.ImageAdapter;
+import raghav.akash.popularmovies.model.MovieDetails;
 
 public class PosterScreenActivity extends AppCompatActivity {
 
@@ -103,23 +107,16 @@ public class PosterScreenActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.poster_screen_menu, menu);
+    getMenuInflater().inflate(R.menu.settings_menu, menu);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.menu_top_rated) {
-      if (posterSortType.equals(POPULAR_MOVIES)) {
-        toolbar.setTitle(R.string.top_rated_str);
-        getMoviePosters(TOP_MOVIES);
-      }
-    } else {
-      if (posterSortType.equals(TOP_MOVIES)) {
-        toolbar.setTitle(R.string.most_popular_str);
-        getMoviePosters(POPULAR_MOVIES);
-      }
+    if (item.getItemId() == R.id.settings) {
+      startActivity(new Intent(this, SettingsActivity.class));
+      return true;
     }
-    return true;
+    return super.onOptionsItemSelected(item);
   }
 }

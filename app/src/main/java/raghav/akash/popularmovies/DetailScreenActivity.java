@@ -6,9 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import raghav.akash.popularmovies.model.MovieDetails;
+
 public class DetailScreenActivity extends AppCompatActivity {
 
-  static final String MOVIE_DATA = "movie_data";
+  public static final String MOVIE_DATA = "movie_data";
   private TextView titleTxt;
   private TextView overviewTxt;
   private TextView ratingTxt;
