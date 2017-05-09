@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">PopularMovies</string>
   <string name="title_activity_poster_screen">Movies</string>
-  <string name="title_activity_detail_screen">DetailScreenActivity</string>
+  <string name="title_activity_detail_screen">Movie Details</string>
   <string name="title_activity_settings_screen">Settings</string>
 
   <string name="movie_base_url">http://api.themoviedb.org/3/movie/%1$s?api_key=%2$s</string>
