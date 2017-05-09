@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/content_detail_screen"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,40 +15,74 @@
     tools:context="raghav.akash.popularmovies.DetailScreenActivity"
     tools:showIn="@layout/activity_detail_screen">
 
-  <TextView
-      android:id="@+id/movie_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+  <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-  <ImageView
-      android:id="@+id/movie_poster_thumb"
-      android:contentDescription="@string/poster_info"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/movie_poster_thumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/poster_info"
+        android:src="@mipmap/ic_launcher"/>
+
+    <Space android:layout_width="@dimen/activity_horizontal_margin"
+           android:layout_height="wrap_content"/>
+
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
+      <TextView
+          android:id="@+id/movie_title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Title"
+          android:textAppearance="?android:textAppearanceLarge"/>
+
+      <TextView
+          android:id="@+id/rating_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Rating"
+          android:textAppearance="?android:textAppearanceMedium"/>
+
+      <TextView
+          android:id="@+id/movie_rating"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="8.5"/>
+
+      <TextView
+          android:id="@+id/release_date_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Release Date"
+          android:textAppearance="?android:textAppearanceMedium"/>
+
+      <TextView
+          android:id="@+id/movie_release_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="10/9/2017"/>
+    </LinearLayout>
+
+  </LinearLayout>
+
+  <Space android:layout_width="wrap_content"
+         android:layout_height="@dimen/activity_horizontal_margin"/>
+
+  <TextView
+      android:id="@+id/overview_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Overview"
+      android:textAppearance="?android:textAppearanceLarge"/>
 
   <TextView
       android:id="@+id/movie_overview"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+      android:text="overview is this"/>
 
-  <TextView
-      android:id="@+id/rating_text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-
-  <TextView
-      android:id="@+id/movie_rating"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-
-  <TextView
-      android:id="@+id/release_date_text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-
-  <TextView
-      android:id="@+id/movie_release_date"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-
-</RelativeLayout>
+</LinearLayout>

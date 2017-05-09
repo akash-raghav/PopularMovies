@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <array name="pref_syncConnectionTypes_entries">
-    <item>Popular</item>
-    <item>Top Rated</item>
+  <array name="pref_sort_option_entries">
+    <item>@string/pref_option_popular_movies</item>
+    <item>@string/pref_option_top_rated_movies</item>
   </array>
 
-  <array name="pref_syncConnectionTypes_values">
-    <item>popular</item>
-    <item>top_rated</item>
+  <array name="pref_sort_option_values">
+    <item>@string/value_popular</item>
+    <item>@string/value_top_rated</item>
   </array>
 </resources>

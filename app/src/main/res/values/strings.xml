@@ -1,16 +1,22 @@
 <resources>
   <string name="app_name">PopularMovies</string>
   <string name="title_activity_poster_screen">Movies</string>
-  <string name="most_popular_str">Most Popular</string>
-  <string name="top_rated_str">Top Rated</string>
   <string name="title_activity_detail_screen">DetailScreenActivity</string>
+  <string name="title_activity_settings_screen">Settings</string>
+
   <string name="movie_base_url">http://api.themoviedb.org/3/movie/%1$s?api_key=%2$s</string>
-  <string name="base_image_url">http://image.tmdb.org/t/p/w185/</string>
-  <string name="api_key">your-moviesdb-api-key-here</string>
+  <string name="base_image_url_185">https://image.tmdb.org/t/p/w185</string>
+  <string name="api_key">api key here</string>
+
   <string name="poster_info">Movie Poster Thumb</string>
+
   <string name="pref_movieSortType">Sort Order</string>
-  <string name="pref_movieSortSelection">Movie Order</string>
-  <string name="pref_defaultMovieSortOrder">popular</string>
-  <string name="settings">settings</string>
+  <string name="pref_movieSortSelection">Sort By</string>
+  <string name="pref_defaultMovieSortOrder">@string/value_popular</string>
   <string name="pref_sortOrderKey">sortOrderKey</string>
+  <string name="pref_option_popular_movies">Popular Movies</string>
+  <string name="pref_option_top_rated_movies">Top Rated Movies</string>
+
+  <string name="value_popular">popular</string>
+  <string name="value_top_rated">top_rated</string>
 </resources>

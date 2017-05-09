@@ -47,7 +47,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
       }
     });
     Picasso.with(context)
-        .load(context.getString(R.string.base_image_url) + movieDetailsList.get(position).getImageThumbnail())
+        .load(context.getString(R.string.base_image_url_185) + movieDetailsList.get(position).getImageThumbnail())
         .into(holder.imageView);
   }
 

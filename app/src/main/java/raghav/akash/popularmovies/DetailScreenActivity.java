@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import raghav.akash.popularmovies.model.MovieDetails;
 
 public class DetailScreenActivity extends AppCompatActivity {
@@ -38,7 +40,13 @@ public class DetailScreenActivity extends AppCompatActivity {
   }
 
   private void setupViews() {
-
+    titleTxt.setText(movieDetails.getTitle());
+    ratingTxt.setText(movieDetails.getRating());
+    releaseDateTxt.setText(movieDetails.getReleaseDate());
+    overviewTxt.setText(movieDetails.getOverview());
+    Picasso.with(this)
+        .load(getString(R.string.base_image_url_185) + movieDetails.getImageThumbnail())
+        .into(postImg);
   }
 
 }
