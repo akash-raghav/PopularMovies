@@ -5,10 +5,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,39 +22,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import raghav.akash.popularmovies.adapter.ImageAdapter;
+import butterknife.InjectView;
+import raghav.akash.popularmovies.adapter.DetailsAdapter;
 import raghav.akash.popularmovies.model.MovieDetails;
 
-public class PosterScreenActivity extends AppCompatActivity {
+public class MoviesActivity extends ToolbarActivity {
 
   private static final String TAG = "Popular Movies";
-  //  private static final int MOVIE_LIST_TYPE = 100;
-  private Toolbar toolbar;
-  private RecyclerView posterGridRecyclerView;
-  private ImageAdapter adapter;
+  @InjectView(R.id.content_poster_screen_grid_view) RecyclerView posterGridRecyclerView;
+  private DetailsAdapter adapter;
   private SharedPreferences sharedPreferences;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_poster_screen);
+    setContentView(R.layout.content_movies);
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    init();
   }
 
   @Override
   protected void onStart() {
     super.onStart();
     getMoviePosters(sharedPreferences.getString(getString(R.string.pref_sortOrderKey), getString(R.string.pref_defaultMovieSortOrder)));
-  }
-
-  private void init() {
-    toolbar = (Toolbar) findViewById(R.id.toolbar);
-    if (toolbar != null) {
-      toolbar.setTitle(R.string.title_activity_poster_screen);
-    }
-    setSupportActionBar(toolbar);
-    posterGridRecyclerView = (RecyclerView) findViewById(R.id.content_poster_screen_grid_view);
   }
 
   private void getMoviePosters(String moviesListType) {
@@ -102,7 +89,7 @@ public class PosterScreenActivity extends AppCompatActivity {
         movieDetailsList.add(MovieDetails.parseDetails(jsonArray.getJSONObject(i)));
       }
       if (adapter == null) {
-        adapter = new ImageAdapter(this, movieDetailsList);
+        adapter = new DetailsAdapter(this, movieDetailsList);
         posterGridRecyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         posterGridRecyclerView.setAdapter(adapter);
       } else {

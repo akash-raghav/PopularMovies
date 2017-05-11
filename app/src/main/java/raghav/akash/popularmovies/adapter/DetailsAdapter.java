@@ -12,7 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import raghav.akash.popularmovies.DetailScreenActivity;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import raghav.akash.popularmovies.DetailsActivity;
 import raghav.akash.popularmovies.R;
 import raghav.akash.popularmovies.model.MovieDetails;
 
@@ -20,19 +22,19 @@ import raghav.akash.popularmovies.model.MovieDetails;
  * @author raghav
  *         Created on 23/5/16.
  */
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder> {
+public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ImageHolder> {
 
   private ArrayList<MovieDetails> movieDetailsList;
   private Context context;
 
-  public ImageAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
+  public DetailsAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
     this.context = context;
     this.movieDetailsList = movieDetailsList;
   }
 
   @Override
   public ImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(context).inflate(R.layout.adapter_image_view, parent, false);
+    View v = LayoutInflater.from(context).inflate(R.layout.adapter_detail_view, parent, false);
     return new ImageHolder(v);
   }
 
@@ -41,8 +43,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
     holder.containerView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent i = new Intent(context, DetailScreenActivity.class);
-        i.putExtra(DetailScreenActivity.MOVIE_DATA, movieDetailsList.get(holder.getAdapterPosition()));
+        Intent i = new Intent(context, DetailsActivity.class);
+        i.putExtra(DetailsActivity.MOVIE_DATA, movieDetailsList.get(holder.getAdapterPosition()));
         context.startActivity(i);
       }
     });
@@ -69,12 +71,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
   static class ImageHolder extends RecyclerView.ViewHolder {
 
     View containerView;
-    ImageView imageView;
+    @InjectView(R.id.adapter_image_view_display_image) ImageView imageView;
 
     ImageHolder(View itemView) {
       super(itemView);
       containerView = itemView;
-      imageView = (ImageView) itemView.findViewById(R.id.adapter_image_view_display_image);
+      ButterKnife.inject(this, itemView);
     }
   }
 }
