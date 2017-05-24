@@ -8,6 +8,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import raghav.akash.popularmovies.model.MovieDetails;
+import raghav.akash.popularmovies.network.ApiUrl;
 
 public class DetailsActivity extends ToolbarActivity {
 
@@ -25,6 +26,11 @@ public class DetailsActivity extends ToolbarActivity {
     setupViews();
   }
 
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+  }
+
   private void setupViews() {
     MovieDetails movieDetails = getIntent().getParcelableExtra(MOVIE_DATA);
     titleTxt.setText(movieDetails.getTitle());
@@ -32,8 +38,12 @@ public class DetailsActivity extends ToolbarActivity {
     releaseDateTxt.setText(movieDetails.getReleaseDate());
     overviewTxt.setText(movieDetails.getOverview());
     Picasso.with(this)
-        .load(getString(R.string.base_image_url_185) + movieDetails.getImageThumbnail())
+        .load(ApiUrl.getMoviePosterUrl(movieDetails.getImageThumbnail()))
         .into(postImg);
   }
 
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+  }
 }

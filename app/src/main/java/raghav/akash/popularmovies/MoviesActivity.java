@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,10 +24,12 @@ import java.util.Scanner;
 import butterknife.InjectView;
 import raghav.akash.popularmovies.adapter.DetailsAdapter;
 import raghav.akash.popularmovies.model.MovieDetails;
+import raghav.akash.popularmovies.network.ApiUrl;
+import raghav.akash.popularmovies.util.Constants;
+import raghav.akash.popularmovies.util.CustomLog;
 
 public class MoviesActivity extends ToolbarActivity {
 
-  private static final String TAG = "Popular Movies";
   @InjectView(R.id.content_poster_screen_grid_view) RecyclerView posterGridRecyclerView;
   private DetailsAdapter adapter;
   private SharedPreferences sharedPreferences;
@@ -47,15 +48,15 @@ public class MoviesActivity extends ToolbarActivity {
   }
 
   private void getMoviePosters(String moviesListType) {
-    Log.d(TAG, "getMoviePosters: " + moviesListType);
+    CustomLog.d("getMoviePosters: " + moviesListType);
     AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
       @Override
       protected String doInBackground(String... params) {
         HttpURLConnection urlConnection = null;
         StringBuilder stringBuilder = new StringBuilder();
         try {
-          URL url = new URL(String.format(getString(R.string.movie_base_url), params[0], getString(R.string.api_key)));
-          Log.d("Popular Movies", url.getPath());
+          URL url = new URL(ApiUrl.getMoviesListUrl(params[0], getString(R.string.api_key)));
+          CustomLog.d(url.getPath());
           urlConnection = (HttpURLConnection) url.openConnection();
           InputStream inputStream = urlConnection.getInputStream();
           Scanner scanner = new Scanner(inputStream);
@@ -63,7 +64,7 @@ public class MoviesActivity extends ToolbarActivity {
             stringBuilder.append(scanner.next());
           }
         } catch (IOException e) {
-          Log.e(TAG, e.getMessage());
+          CustomLog.e(e.getMessage());
         } finally {
           if (urlConnection != null) {
             urlConnection.disconnect();
@@ -83,7 +84,7 @@ public class MoviesActivity extends ToolbarActivity {
   private void setMoviePosters(String jsonString) {
     try {
       JSONObject resultObject = new JSONObject(jsonString);
-      JSONArray jsonArray = resultObject.getJSONArray("results");
+      JSONArray jsonArray = resultObject.getJSONArray(Constants.RESULTS);
       ArrayList<MovieDetails> movieDetailsList = new ArrayList<>();
       for (int i = 0; i < jsonArray.length(); i++) {
         movieDetailsList.add(MovieDetails.parseDetails(jsonArray.getJSONObject(i)));
@@ -96,7 +97,7 @@ public class MoviesActivity extends ToolbarActivity {
         adapter.updateList(movieDetailsList);
       }
     } catch (JSONException e) {
-      Log.e(TAG, e.getMessage());
+      CustomLog.e(e.getMessage());
     }
   }
 

@@ -13,8 +13,17 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', '\"http://api.themoviedb.org/3/movie/\"'
+            buildConfigField 'String', 'BASE_POSTER_URL_185', '\"https://image.tmdb.org/t/p/w185/\"'
+        }
+
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', '\"http://api.themoviedb.org/3/movie/\"'
+            buildConfigField 'String', 'BASE_POSTER_URL_185', '\"https://image.tmdb.org/t/p/w185/\"'
         }
     }
 }
