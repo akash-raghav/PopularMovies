@@ -2,7 +2,6 @@ package raghav.akash.popularmovies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,23 +13,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import butterknife.InjectView;
 import raghav.akash.popularmovies.adapter.DetailsAdapter;
 import raghav.akash.popularmovies.model.MovieDetails;
-import raghav.akash.popularmovies.network.ApiUrl;
+import raghav.akash.popularmovies.network.ApiRequestGenerator;
+import raghav.akash.popularmovies.network.Response;
+import raghav.akash.popularmovies.network.ResponseCallback;
 import raghav.akash.popularmovies.util.Constants;
 import raghav.akash.popularmovies.util.CustomLog;
 
 public class MoviesActivity extends ToolbarActivity {
 
-  @InjectView(R.id.content_poster_screen_grid_view) RecyclerView posterGridRecyclerView;
+  @InjectView(R.id.content_poster_screen_grid_view)
+  RecyclerView posterGridRecyclerView;
   private DetailsAdapter adapter;
   private SharedPreferences sharedPreferences;
 
@@ -49,36 +46,17 @@ public class MoviesActivity extends ToolbarActivity {
 
   private void getMoviePosters(String moviesListType) {
     CustomLog.d("getMoviePosters: " + moviesListType);
-    AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() {
+    ApiRequestGenerator.getMoviesList(this, moviesListType, new ResponseCallback() {
       @Override
-      protected String doInBackground(String... params) {
-        HttpURLConnection urlConnection = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-          URL url = new URL(ApiUrl.getMoviesListUrl(params[0], getString(R.string.api_key)));
-          CustomLog.d(url.getPath());
-          urlConnection = (HttpURLConnection) url.openConnection();
-          InputStream inputStream = urlConnection.getInputStream();
-          Scanner scanner = new Scanner(inputStream);
-          while (scanner.hasNext()) {
-            stringBuilder.append(scanner.next());
-          }
-        } catch (IOException e) {
-          CustomLog.e(e.getMessage());
-        } finally {
-          if (urlConnection != null) {
-            urlConnection.disconnect();
-          }
-        }
-        return stringBuilder.toString();
+      public void onSuccess(Response response) {
+        setMoviePosters(response.getData());
       }
 
       @Override
-      protected void onPostExecute(String s) {
-        setMoviePosters(s);
+      public void onFailure(Response response) {
+        CustomLog.e(response.getMessage());
       }
-    };
-    task.execute(moviesListType);
+    });
   }
 
   private void setMoviePosters(String jsonString) {

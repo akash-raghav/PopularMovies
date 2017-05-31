@@ -17,7 +17,7 @@ import butterknife.InjectView;
 import raghav.akash.popularmovies.DetailsActivity;
 import raghav.akash.popularmovies.R;
 import raghav.akash.popularmovies.model.MovieDetails;
-import raghav.akash.popularmovies.network.ApiUrl;
+import raghav.akash.popularmovies.network.UrlGenerator;
 
 /**
  * @author raghav
@@ -50,7 +50,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ImageHol
       }
     });
     Picasso.with(context)
-        .load(ApiUrl.getMoviePosterUrl(movieDetailsList.get(position).getImageThumbnail()))
+        .load(UrlGenerator.getMoviePosterUrl(movieDetailsList.get(position).getImageThumbnail()))
+        .placeholder(R.drawable.place_holder)
+        .error(R.drawable.place_holder)
         .into(holder.imageView);
   }
 

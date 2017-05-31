@@ -4,7 +4,7 @@
   <string name="title_activity_detail_screen">Movie Details</string>
   <string name="title_activity_settings_screen">Settings</string>
 
-  <string name="api_key">api key here</string>
+  <string name="api_key">fd719202ff34c01579b996907972874d</string>
 
   <string name="poster_info">Movie Poster Thumb</string>
 
@@ -17,4 +17,9 @@
 
   <string name="value_popular">popular</string>
   <string name="value_top_rated">top_rated</string>
+  <string name="trailers_string">Trailers</string>
+  <string name="reviews_string">View Reviews</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
