@@ -4,7 +4,7 @@
   <string name="title_activity_detail_screen">Movie Details</string>
   <string name="title_activity_settings_screen">Settings</string>
 
-  <string name="api_key">fd719202ff34c01579b996907972874d</string>
+  <string name="api_key">api_key_here</string>
 
   <string name="poster_info">Movie Poster Thumb</string>
 
