@@ -29,13 +29,11 @@ public class NetworkRequestHandler {
 
   private static final int SINGLE_REQUEST = 1;
   private static final int SINGLE_RESPONSE = 2;
-  public static boolean isSetup;
   private static Handler uiHandler;
   private static Handler backgroundHandler;
   private static BackgroundThread backgroundThread;
 
   public static void setupNetworkHandler(Context context) {
-    isSetup = true;
     uiHandler = new UIHandler(context.getMainLooper());
     backgroundThread = new BackgroundThread("BACKGROUND_THREAD");
     backgroundThread.start();
@@ -44,8 +42,7 @@ public class NetworkRequestHandler {
 
   public static void sendRequest(Context context, Request request) {
     if (CommonUtils.isNetworkConnected(context)) {
-      Message message = backgroundHandler.obtainMessage(SINGLE_REQUEST, request);
-      backgroundHandler.sendMessage(message);
+      backgroundHandler.obtainMessage(SINGLE_REQUEST, request).sendToTarget();
     } else {
       request.getResponseCallback().onFailure(new Response(Constants.FAILURE, null, "No Internet", null));
     }
@@ -119,9 +116,7 @@ public class NetworkRequestHandler {
             conn.disconnect();
           }
         }
-
-        Message message = uiHandler.obtainMessage(SINGLE_RESPONSE, response);
-        uiHandler.sendMessage(message);
+        uiHandler.obtainMessage(SINGLE_RESPONSE, response).sendToTarget();
       }
     }
   }

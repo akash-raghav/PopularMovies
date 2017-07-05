@@ -11,6 +11,8 @@ import raghav.akash.popularmovies.util.Constants;
 
 public class UrlGenerator {
 
+  private static final String YOUTUBE_VIEW_URL = "http://www.youtube.com/watch?v=";
+
   public static String getMoviesListUrl(String sortOrder) {
     return BuildConfig.BASE_URL + Constants.URL_PATH_SEPARATOR + sortOrder;
   }
@@ -25,5 +27,9 @@ public class UrlGenerator {
 
   public static String getAllReviewsUrl(String movieId) {
     return BuildConfig.BASE_URL + Constants.URL_PATH_SEPARATOR + movieId + Constants.URL_PATH_SEPARATOR + Constants.REVIEWS;
+  }
+
+  public static String getYoutubeTrailerURL(String key) {
+    return YOUTUBE_VIEW_URL + key;
   }
 }

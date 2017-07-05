@@ -2,58 +2,54 @@ package raghav.akash.popularmovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import raghav.akash.popularmovies.DetailsActivity;
 import raghav.akash.popularmovies.R;
-import raghav.akash.popularmovies.model.MovieDetails;
+import raghav.akash.popularmovies.model.Trailer;
 import raghav.akash.popularmovies.network.UrlGenerator;
 
 /**
  * @author raghav
  *         Created on 23/5/16.
  */
-public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ImageHolder> {
+public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ImageHolder> {
 
-  private ArrayList<MovieDetails> movieDetailsList;
+  private ArrayList<Trailer> trailersList;
   private Context context;
 
-  public DetailsAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
+  public TrailerAdapter(Context context, ArrayList<Trailer> trailersList) {
     this.context = context;
-    this.movieDetailsList = movieDetailsList;
+    this.trailersList = trailersList;
   }
 
   @Override
   public ImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(context).inflate(R.layout.adapter_detail_view, parent, false);
+    View v = LayoutInflater.from(context).inflate(R.layout.adapter_trailer_view, parent, false);
     return new ImageHolder(v);
   }
 
   @Override
   public void onBindViewHolder(final ImageHolder holder, int position) {
+    holder.imageView.setImageResource(R.drawable.place_holder);
+    holder.textView.setText(trailersList.get(holder.getAdapterPosition()).getName());
     holder.containerView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent i = new Intent(context, DetailsActivity.class);
-        i.putExtra(DetailsActivity.MOVIE_DATA, movieDetailsList.get(holder.getAdapterPosition()));
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(UrlGenerator.getYoutubeTrailerURL(trailersList.get(holder.getAdapterPosition()).getKey())));
         context.startActivity(i);
       }
     });
-    Picasso.with(context)
-        .load(UrlGenerator.getMoviePosterUrl(movieDetailsList.get(position).getImageThumbnail()))
-        .placeholder(R.drawable.place_holder)
-        .error(R.drawable.place_holder)
-        .into(holder.imageView);
   }
 
   @Override
@@ -63,18 +59,21 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ImageHol
 
   @Override
   public int getItemCount() {
-    return movieDetailsList.size();
+    return trailersList.size();
   }
 
-  public void updateList(ArrayList<MovieDetails> movieDetailsList) {
-    this.movieDetailsList = movieDetailsList;
+  public void updateList(ArrayList<Trailer> trailersList) {
+    this.trailersList = trailersList;
     notifyDataSetChanged();
   }
 
   static class ImageHolder extends RecyclerView.ViewHolder {
 
     View containerView;
-    @InjectView(R.id.adapter_detail_view_poster_image) ImageView imageView;
+    @InjectView(R.id.adapter_trailer_view_image)
+    ImageView imageView;
+    @InjectView(R.id.adapter_trailer_view_name)
+    TextView textView;
 
     ImageHolder(View itemView) {
       super(itemView);

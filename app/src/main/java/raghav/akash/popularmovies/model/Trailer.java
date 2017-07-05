@@ -1,5 +1,10 @@
 package raghav.akash.popularmovies.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import raghav.akash.popularmovies.util.CustomLog;
+
 /**
  * Created on 22/5/17.
  *
@@ -14,6 +19,21 @@ public class Trailer {
   private String site;
   private int size;
   private String type;
+
+  public static Trailer parseTrailer(JSONObject jsonObject) {
+    Trailer trailer = new Trailer();
+    try {
+      trailer.id = jsonObject.getString("id");
+      trailer.key = jsonObject.getString("key");
+      trailer.name = jsonObject.getString("name");
+      trailer.site = jsonObject.getString("site");
+      trailer.size = jsonObject.getInt("size");
+      trailer.type = jsonObject.getString("type");
+    } catch (JSONException e) {
+      CustomLog.e(e);
+    }
+    return trailer;
+  }
 
   public String getId() {
     return id;

@@ -27,4 +27,10 @@ public class ApiRequestGenerator {
     params.put(Constants.API_KEY, context.getString(R.string.api_key));
     NetworkRequestHandler.sendRequest(context, new Request(UrlGenerator.getAllTrailersUrl(movieId), params, responseCallback));
   }
+
+  public static void getReviewsList(Context context, String movieId, ResponseCallback responseCallback) {
+    Map<String, String> params = new HashMap<>();
+    params.put(Constants.API_KEY, context.getString(R.string.api_key));
+    NetworkRequestHandler.sendRequest(context, new Request(UrlGenerator.getAllReviewsUrl(movieId), params, responseCallback));
+  }
 }
